@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
@@ -90,6 +89,10 @@ const Users = () => {
       isBanned: "all",
       emailConfirmed: "all",
     });
+  };
+
+  const handleSelectAllUsers = (checked: boolean) => {
+    setSelectedUsers(checked ? mockUsers.map(user => user.id) : []);
   };
 
   return (
@@ -195,7 +198,10 @@ const Users = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-12">
-                      <Checkbox />
+                      <Checkbox 
+                        checked={selectedUsers.length === mockUsers.length}
+                        onCheckedChange={handleSelectAllUsers}
+                      />
                     </TableHead>
                     <TableHead>ID</TableHead>
                     <TableHead>Rôle</TableHead>
