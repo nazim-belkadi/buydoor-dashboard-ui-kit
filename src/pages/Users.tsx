@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
@@ -7,6 +6,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Search, Trash2, Filter, FilterX } from "lucide-react";
 import MainNavigation from "@/components/MainNavigation";
+import { useToast } from "@/hooks/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   Select,
   SelectContent,
@@ -59,8 +70,10 @@ const mockUsers: User[] = [
 ];
 
 const Users = () => {
+  const [users, setUsers] = useState(mockUsers);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const { toast } = useToast();
   const [filters, setFilters] = useState({
     role: "all",
     adminLevel: "all",
@@ -68,7 +81,7 @@ const Users = () => {
     emailConfirmed: "all",
   });
 
-  const filteredUsers = mockUsers.filter(user => {
+  const filteredUsers = users.filter(user => {
     const matchesSearch = 
       user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -93,7 +106,12 @@ const Users = () => {
   };
 
   const handleDeleteSelected = () => {
-    console.log("Deleting users:", selectedUsers);
+    setUsers(prevUsers => prevUsers.filter(user => !selectedUsers.includes(user.id)));
+    toast({
+      title: "Utilisateurs supprimés",
+      description: `${selectedUsers.length} utilisateur(s) ont été supprimés.`,
+    });
+    setSelectedUsers([]);
   };
 
   const handleResetFilters = () => {
@@ -106,7 +124,7 @@ const Users = () => {
   };
 
   const handleSelectAllUsers = (checked: boolean) => {
-    setSelectedUsers(checked ? mockUsers.map(user => user.id) : []);
+    setSelectedUsers(checked ? users.map(user => user.id) : []);
   };
 
   return (
@@ -118,14 +136,31 @@ const Users = () => {
             <div className="flex items-center justify-between">
               <h1 className="text-3xl font-bold">Utilisateurs</h1>
               {selectedUsers.length > 0 && (
-                <Button 
-                  variant="destructive" 
-                  onClick={handleDeleteSelected}
-                  className="flex items-center gap-2"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Supprimer ({selectedUsers.length})
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button 
+                      variant="destructive" 
+                      className="flex items-center gap-2"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Supprimer ({selectedUsers.length})
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Cette action est irréversible. Cela supprimera définitivement {selectedUsers.length} utilisateur(s) sélectionné(s).
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleDeleteSelected}>
+                        Continuer
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               )}
             </div>
 
@@ -231,7 +266,21 @@ const Users = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredUsers.map((user) => (
+                  {users.filter(user => {
+                    const matchesSearch = 
+                      user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                      user.id.toLowerCase().includes(searchQuery.toLowerCase());
+
+                    const matchesRole = filters.role === "all" || user.role === filters.role;
+                    const matchesAdminLevel = filters.adminLevel === "all" || user.admin_level.toString() === filters.adminLevel;
+                    const matchesIsBanned = filters.isBanned === "all" || 
+                      (filters.isBanned === "true" ? user.is_banned : !user.is_banned);
+                    const matchesEmailConfirmed = filters.emailConfirmed === "all" ||
+                      (filters.emailConfirmed === "true" ? user.email_confirmed_at !== null : user.email_confirmed_at === null);
+
+                    return matchesSearch && matchesRole && matchesAdminLevel && matchesIsBanned && matchesEmailConfirmed;
+                  }).map((user) => (
                     <TableRow key={user.id}>
                       <TableCell>
                         <Checkbox
