@@ -1,0 +1,118 @@
+
+import { ChevronRight, ChevronDown, Folder, FolderPlus, Edit, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { useState } from "react";
+
+interface Category {
+  id: string;
+  name: string;
+  children: Category[];
+}
+
+interface CategoryTreeProps {
+  categories: Category[];
+  onAddSubCategory: (parentId: string) => void;
+  onDeleteCategory: (categoryId: string) => void;
+  searchQuery: string;
+  level?: number;
+}
+
+export default function CategoryTree({ 
+  categories, 
+  onAddSubCategory, 
+  onDeleteCategory,
+  searchQuery,
+  level = 0 
+}: CategoryTreeProps) {
+  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
+
+  const toggleCategory = (categoryId: string) => {
+    setOpenCategories(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(categoryId)) {
+        newSet.delete(categoryId);
+      } else {
+        newSet.add(categoryId);
+      }
+      return newSet;
+    });
+  };
+
+  const filteredCategories = categories.filter(category =>
+    category.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  if (filteredCategories.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="space-y-2">
+      {filteredCategories.map(category => (
+        <div key={category.id} className="rounded-lg border bg-card text-card-foreground">
+          <Collapsible 
+            open={openCategories.has(category.id)}
+            onOpenChange={() => toggleCategory(category.id)}
+          >
+            <div className="flex items-center p-2 hover:bg-accent rounded-lg transition-colors">
+              <CollapsibleTrigger className="flex items-center flex-1 gap-2">
+                {category.children.length > 0 ? (
+                  openCategories.has(category.id) ? (
+                    <ChevronDown className="h-4 w-4" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4" />
+                  )
+                ) : (
+                  <Folder className="h-4 w-4 text-muted-foreground" />
+                )}
+                <span className="font-medium">{category.name}</span>
+              </CollapsibleTrigger>
+              
+              <div className="flex items-center gap-2">
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onAddSubCategory(category.id);
+                  }}
+                >
+                  <FolderPlus className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteCategory(category.id);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            
+            {category.children.length > 0 && (
+              <CollapsibleContent>
+                <div className="pl-6 mt-2">
+                  <CategoryTree
+                    categories={category.children}
+                    onAddSubCategory={onAddSubCategory}
+                    onDeleteCategory={onDeleteCategory}
+                    searchQuery={searchQuery}
+                    level={level + 1}
+                  />
+                </div>
+              </CollapsibleContent>
+            )}
+          </Collapsible>
+        </div>
+      ))}
+    </div>
+  );
+}

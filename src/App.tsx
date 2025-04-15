@@ -7,10 +7,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import Index from "./pages/Index";
 import Users from "./pages/Users";
+import Categories from "./pages/Categories";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
-  // Create a new QueryClient instance inside the component
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -22,7 +22,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/users" element={<Users />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/categories" element={<Categories />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
