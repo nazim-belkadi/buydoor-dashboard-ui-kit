@@ -1,12 +1,18 @@
-
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Search, Trash2 } from "lucide-react";
+import { Search, Trash2, Filter, FilterX } from "lucide-react";
 import MainNavigation from "@/components/MainNavigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface User {
   id: string;
@@ -36,17 +42,33 @@ const mockUsers: User[] = [
     created_at: "2024-01-01",
     is_banned: false
   },
-  // Ajoutez d'autres utilisateurs mockés si nécessaire
 ];
 
 const Users = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [filters, setFilters] = useState({
+    role: "",
+    adminLevel: "",
+    isBanned: "",
+    emailConfirmed: "",
+  });
 
-  const filteredUsers = mockUsers.filter(user => 
-    user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredUsers = mockUsers.filter(user => {
+    const matchesSearch = 
+      user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.id.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesRole = !filters.role || user.role === filters.role;
+    const matchesAdminLevel = !filters.adminLevel || user.admin_level.toString() === filters.adminLevel;
+    const matchesIsBanned = filters.isBanned === "" || 
+      (filters.isBanned === "true" ? user.is_banned : !user.is_banned);
+    const matchesEmailConfirmed = filters.emailConfirmed === "" ||
+      (filters.emailConfirmed === "true" ? user.email_confirmed_at !== null : user.email_confirmed_at === null);
+
+    return matchesSearch && matchesRole && matchesAdminLevel && matchesIsBanned && matchesEmailConfirmed;
+  });
 
   const handleSelectUser = (userId: string) => {
     setSelectedUsers(prev => 
@@ -57,8 +79,16 @@ const Users = () => {
   };
 
   const handleDeleteSelected = () => {
-    // Logique de suppression à implémenter
     console.log("Deleting users:", selectedUsers);
+  };
+
+  const handleResetFilters = () => {
+    setFilters({
+      role: "",
+      adminLevel: "",
+      isBanned: "",
+      emailConfirmed: "",
+    });
   };
 
   return (
@@ -84,11 +114,79 @@ const Users = () => {
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Rechercher un utilisateur..."
+                placeholder="Rechercher par ID, nom ou email..."
                 className="pl-9"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+            </div>
+
+            <div className="flex items-center gap-4 flex-wrap">
+              <Select
+                value={filters.role}
+                onValueChange={(value) => setFilters(prev => ({ ...prev, role: value }))}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Rôle" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Tous les rôles</SelectItem>
+                  <SelectItem value="user">Utilisateur</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={filters.adminLevel}
+                onValueChange={(value) => setFilters(prev => ({ ...prev, adminLevel: value }))}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Niveau Admin" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Tous les niveaux</SelectItem>
+                  <SelectItem value="0">Niveau 0</SelectItem>
+                  <SelectItem value="1">Niveau 1</SelectItem>
+                  <SelectItem value="2">Niveau 2</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={filters.isBanned}
+                onValueChange={(value) => setFilters(prev => ({ ...prev, isBanned: value }))}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Statut Ban" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Tous</SelectItem>
+                  <SelectItem value="true">Banni</SelectItem>
+                  <SelectItem value="false">Non banni</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={filters.emailConfirmed}
+                onValueChange={(value) => setFilters(prev => ({ ...prev, emailConfirmed: value }))}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Email confirmé" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Tous</SelectItem>
+                  <SelectItem value="true">Confirmé</SelectItem>
+                  <SelectItem value="false">Non confirmé</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2"
+                onClick={handleResetFilters}
+              >
+                <FilterX className="h-4 w-4" />
+                Réinitialiser les filtres
+              </Button>
             </div>
 
             <div className="rounded-md border">
