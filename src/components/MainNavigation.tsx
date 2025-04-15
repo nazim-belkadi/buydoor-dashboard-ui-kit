@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Search, Package, User, FolderTree, CreditCard, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -14,11 +13,11 @@ import {
 } from "@/components/ui/sidebar";
 
 const navItems = [
-  { icon: Package, label: "Produit" },
-  { icon: User, label: "Utilisateur" },
-  { icon: FolderTree, label: "Category" },
-  { icon: CreditCard, label: "Payment" },
-  { icon: Truck, label: "Shipping" },
+  { icon: Package, label: "Produit", path: "/products" },
+  { icon: User, label: "Utilisateur", path: "/users" },
+  { icon: FolderTree, label: "Category", path: "/categories" },
+  { icon: CreditCard, label: "Payment", path: "/payments" },
+  { icon: Truck, label: "Shipping", path: "/shipping" },
 ];
 
 const MainNavigation = () => {
@@ -30,7 +29,6 @@ const MainNavigation = () => {
 
   return (
     <Sidebar>
-      {/* Logo Header - Fixed at top */}
       <div className="fixed top-0 left-0 w-64 bg-background shadow-sm z-50">
         <div className="flex items-center justify-center h-16 border-b border-border">
           <span className="text-2xl font-bold text-primary">Buy</span>
@@ -38,8 +36,7 @@ const MainNavigation = () => {
         </div>
       </div>
 
-      {/* Search and Navigation Content */}
-      <div className="pt-16"> {/* Add padding to account for fixed header */}
+      <div className="pt-16">
         <SidebarHeader className="p-4">
           <div className="relative w-full">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -60,6 +57,7 @@ const MainNavigation = () => {
                   <SidebarMenuItem key={item.label}>
                     <SidebarMenuButton 
                       className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-md transition-colors"
+                      onClick={() => window.location.href = item.path}
                     >
                       <item.icon className="h-5 w-5 text-muted-foreground" />
                       <span className="text-sm font-medium">{item.label}</span>
