@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
@@ -42,6 +43,19 @@ const mockUsers: User[] = [
     created_at: "2024-01-01",
     is_banned: false
   },
+  {
+    id: "2",
+    role: "user",
+    admin_level: 0,
+    full_name: "nazimbelkadi",
+    avatar_url: null,
+    email: "belkadinazim900@gmail.com",
+    email_confirmed_at: "2024-04-15",
+    phone: null,
+    last_sign_in_at: null,
+    created_at: "2024-04-15",
+    is_banned: false
+  }
 ];
 
 const Users = () => {
