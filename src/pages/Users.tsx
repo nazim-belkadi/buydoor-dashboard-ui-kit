@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
@@ -48,10 +49,10 @@ const Users = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [filters, setFilters] = useState({
-    role: "",
-    adminLevel: "",
-    isBanned: "",
-    emailConfirmed: "",
+    role: "all",
+    adminLevel: "all",
+    isBanned: "all",
+    emailConfirmed: "all",
   });
 
   const filteredUsers = mockUsers.filter(user => {
@@ -60,11 +61,11 @@ const Users = () => {
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.id.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesRole = !filters.role || user.role === filters.role;
-    const matchesAdminLevel = !filters.adminLevel || user.admin_level.toString() === filters.adminLevel;
-    const matchesIsBanned = filters.isBanned === "" || 
+    const matchesRole = filters.role === "all" || user.role === filters.role;
+    const matchesAdminLevel = filters.adminLevel === "all" || user.admin_level.toString() === filters.adminLevel;
+    const matchesIsBanned = filters.isBanned === "all" || 
       (filters.isBanned === "true" ? user.is_banned : !user.is_banned);
-    const matchesEmailConfirmed = filters.emailConfirmed === "" ||
+    const matchesEmailConfirmed = filters.emailConfirmed === "all" ||
       (filters.emailConfirmed === "true" ? user.email_confirmed_at !== null : user.email_confirmed_at === null);
 
     return matchesSearch && matchesRole && matchesAdminLevel && matchesIsBanned && matchesEmailConfirmed;
@@ -84,10 +85,10 @@ const Users = () => {
 
   const handleResetFilters = () => {
     setFilters({
-      role: "",
-      adminLevel: "",
-      isBanned: "",
-      emailConfirmed: "",
+      role: "all",
+      adminLevel: "all",
+      isBanned: "all",
+      emailConfirmed: "all",
     });
   };
 
@@ -130,7 +131,7 @@ const Users = () => {
                   <SelectValue placeholder="Rôle" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Tous les rôles</SelectItem>
+                  <SelectItem value="all">Tous les rôles</SelectItem>
                   <SelectItem value="user">Utilisateur</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
                 </SelectContent>
@@ -144,7 +145,7 @@ const Users = () => {
                   <SelectValue placeholder="Niveau Admin" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Tous les niveaux</SelectItem>
+                  <SelectItem value="all">Tous les niveaux</SelectItem>
                   <SelectItem value="0">Niveau 0</SelectItem>
                   <SelectItem value="1">Niveau 1</SelectItem>
                   <SelectItem value="2">Niveau 2</SelectItem>
@@ -159,7 +160,7 @@ const Users = () => {
                   <SelectValue placeholder="Statut Ban" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Tous</SelectItem>
+                  <SelectItem value="all">Tous</SelectItem>
                   <SelectItem value="true">Banni</SelectItem>
                   <SelectItem value="false">Non banni</SelectItem>
                 </SelectContent>
@@ -173,7 +174,7 @@ const Users = () => {
                   <SelectValue placeholder="Email confirmé" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Tous</SelectItem>
+                  <SelectItem value="all">Tous</SelectItem>
                   <SelectItem value="true">Confirmé</SelectItem>
                   <SelectItem value="false">Non confirmé</SelectItem>
                 </SelectContent>
