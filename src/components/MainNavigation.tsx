@@ -30,43 +30,47 @@ const MainNavigation = () => {
 
   return (
     <Sidebar>
-      <div className="fixed top-0 left-0 w-64 bg-sidebar-background z-50 border-r border-sidebar-border">
-        {/* Logo section - now fixed at top */}
-        <div className="flex items-center font-bold text-xl p-4 border-b border-sidebar-border">
-          <span className="text-primary">Buy</span>
-          <span className="text-blue-600">door</span>
+      {/* Logo Header - Fixed at top */}
+      <div className="fixed top-0 left-0 w-64 bg-background shadow-sm z-50">
+        <div className="flex items-center justify-center h-16 border-b border-border">
+          <span className="text-2xl font-bold text-primary">Buy</span>
+          <span className="text-2xl font-bold text-blue-600">door</span>
         </div>
       </div>
 
-      <SidebarHeader className="mt-16 p-4">
-        {/* Search bar */}
-        <div className="relative w-full">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search..." 
-            className="pl-8 w-full"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-      </SidebarHeader>
+      {/* Search and Navigation Content */}
+      <div className="pt-16"> {/* Add padding to account for fixed header */}
+        <SidebarHeader className="p-4">
+          <div className="relative w-full">
+            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Input 
+              placeholder="Rechercher..." 
+              className="w-full pl-9 h-10 bg-background border-border"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </SidebarHeader>
 
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {filteredItems.map((item) => (
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton className="w-full">
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.label}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {filteredItems.map((item) => (
+                  <SidebarMenuItem key={item.label}>
+                    <SidebarMenuButton 
+                      className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-md transition-colors"
+                    >
+                      <item.icon className="h-5 w-5 text-muted-foreground" />
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </div>
     </Sidebar>
   );
 };
