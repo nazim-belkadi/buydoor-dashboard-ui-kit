@@ -1,5 +1,6 @@
+
 import { useState } from "react";
-import { Plus, Search, Filter, Trash2, Edit, FolderPlus } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CategoryTree from "@/components/categories/CategoryTree";
@@ -7,6 +8,7 @@ import CategoryDialog from "@/components/categories/CategoryDialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import MainNavigation from "@/components/MainNavigation";
+import { initialCategories } from "@/data/initialCategories";
 
 interface Category {
   id: string;
@@ -15,7 +17,7 @@ interface Category {
 }
 
 export default function Categories() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>(initialCategories);
   const [searchQuery, setSearchQuery] = useState("");
   const [showCategoryDialog, setShowCategoryDialog] = useState(false);
   const [parentCategoryId, setParentCategoryId] = useState<string | null>(null);
