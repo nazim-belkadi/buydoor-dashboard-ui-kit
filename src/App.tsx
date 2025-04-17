@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,7 +18,7 @@ const App = () => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <ThemeProvider defaultTheme="system" enableSystem>
+    <ThemeProvider defaultTheme="system" enableSystem attribute="class">
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
