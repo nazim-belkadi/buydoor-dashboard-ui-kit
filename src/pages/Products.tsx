@@ -122,8 +122,9 @@ const Products = () => {
 
   const handlePriceInputChange = (value: string) => {
     const newPrice = parseInt(value) || 0;
+    const priceInEUR = Math.round(newPrice / CURRENCY_RATES[selectedCurrency]);
     setPriceInput(newPrice);
-    setPriceRange([priceRange[0], newPrice]);
+    setPriceRange([priceRange[0], priceInEUR]);
   };
 
   const filteredProducts = products.filter(product => {
@@ -135,12 +136,12 @@ const Products = () => {
       product.stock.toString().includes(searchQuery);
 
     const convertedPrice = convertPrice(product.price, selectedCurrency);
-    const convertedPriceRange = [
+    const priceInSelectedCurrency = [
       convertPrice(priceRange[0], selectedCurrency),
-      convertPrice(priceRange[1], selectedCurrency)
+      priceInput
     ];
     
-    const matchesPrice = convertedPrice >= convertedPriceRange[0] && convertedPrice <= convertedPriceRange[1];
+    const matchesPrice = convertedPrice >= priceInSelectedCurrency[0] && convertedPrice <= priceInSelectedCurrency[1];
     
     const matchesDate = selectedDate
       ? format(new Date(product.created_at), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')
