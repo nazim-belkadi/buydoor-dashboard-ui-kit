@@ -8,7 +8,7 @@ const Logo = ({ className }: { className?: string }) => {
       <span 
         className="text-2xl font-bold ml-1"
         style={{
-          background: 'linear-gradient(102.3deg, rgba(147,39,143,1) 5.9%, rgba(234,172,232,1) 64%)',
+          background: 'linear-gradient(to right, #D6BCFA, #6E59A5)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text'
