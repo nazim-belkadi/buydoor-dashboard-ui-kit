@@ -103,6 +103,7 @@ const Products = () => {
     stock: 0,
     created_at: new Date().toISOString().split('T')[0]
   });
+  const [priceInput, setPriceInput] = useState(priceRange[1]);
   const { toast } = useToast();
 
   const convertPrice = (priceEUR: number, targetCurrency: Currency) => {
@@ -117,6 +118,12 @@ const Products = () => {
       DZD: "DA"
     };
     return `${price} ${symbols[currency]}`;
+  };
+
+  const handlePriceInputChange = (value: string) => {
+    const newPrice = parseInt(value) || 0;
+    setPriceInput(newPrice);
+    setPriceRange([priceRange[0], newPrice]);
   };
 
   const filteredProducts = products.filter(product => {
@@ -316,9 +323,13 @@ const Products = () => {
                       step={100}
                       className="flex-1"
                     />
-                    <span className="text-sm">
-                      {formatPrice(convertPrice(priceRange[1], selectedCurrency), selectedCurrency)}
-                    </span>
+                    <Input
+                      type="number"
+                      value={priceInput}
+                      onChange={(e) => handlePriceInputChange(e.target.value)}
+                      className="w-24"
+                      min="0"
+                    />
                   </div>
                 </div>
               </div>
