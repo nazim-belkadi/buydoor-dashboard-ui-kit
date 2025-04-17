@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
@@ -43,18 +42,18 @@ interface PaymentMethod {
 
 const mockPaymentMethods: PaymentMethod[] = [
   {
-    id: "PM001",
-    name: "Cash à la livraison",
+    id: "14216697-97da-4809-8508-5676b1c546e2",
+    name: "COD (Cash On Delivery)",
     type: "COD"
   },
   {
-    id: "PM002",
-    name: "CIB Standard",
+    id: "45f8c803-d57a-434a-b57f-ab960ec026b1",
+    name: "CIB",
     type: "CIB"
   },
   {
-    id: "PM003",
-    name: "Baridi Mobile",
+    id: "5b41495b-6161-477d-82a0-4a39b1f80bb8",
+    name: "Baridi Mob",
     type: "BaridiMob"
   }
 ];
@@ -243,8 +242,7 @@ const Payments = () => {
                       />
                     </TableHead>
                     <TableHead>ID</TableHead>
-                    <TableHead>Nom</TableHead>
-                    <TableHead>Type</TableHead>
+                    <TableHead>Name</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -258,7 +256,6 @@ const Payments = () => {
                       </TableCell>
                       <TableCell className="font-medium">{method.id}</TableCell>
                       <TableCell>{method.name}</TableCell>
-                      <TableCell>{method.type}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -272,4 +269,3 @@ const Payments = () => {
 };
 
 export default Payments;
-
