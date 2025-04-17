@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import MainNavigation from "@/components/MainNavigation";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { RecentActivities } from "@/components/dashboard/RecentActivities";
-import { Card } from "@/components/ui/card";
+import { SalesChart } from "@/components/dashboard/SalesChart";
 
 const Index = () => {
   return (
@@ -28,9 +28,9 @@ const Index = () => {
 
           <DashboardStats />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <SalesChart />
             <RecentActivities />
-            <Card></Card>
           </div>
         </main>
       </div>
@@ -39,3 +39,4 @@ const Index = () => {
 };
 
 export default Index;
+
