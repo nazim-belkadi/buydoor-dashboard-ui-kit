@@ -10,6 +10,7 @@ import Categories from "./pages/Categories";
 import Payments from "./pages/Payments";
 import NotFound from "./pages/NotFound";
 import Shipping from "./pages/Shipping";
+import Products from "./pages/Products";
 
 const App = () => {
   const [queryClient] = useState(() => new QueryClient());
@@ -22,6 +23,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/products" element={<Products />} />
             <Route path="/users" element={<Users />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/payments" element={<Payments />} />
