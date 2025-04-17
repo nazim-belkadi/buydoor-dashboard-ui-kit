@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -57,7 +58,10 @@ export default function Categories() {
               <h1 className="text-3xl font-bold mb-1">Gestion des Catégories</h1>
               <p className="text-muted-foreground">Gérez vos catégories et sous-catégories</p>
             </div>
-            <SidebarTrigger className="lg:hidden" />
+            <SidebarTrigger 
+              className="lg:hidden" 
+              style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
+            />
           </div>
 
           <Card className="bg-white shadow-lg">
@@ -69,16 +73,18 @@ export default function Categories() {
                     setParentCategoryId(null);
                     setShowCategoryDialog(true);
                   }}
-                  className="bg-primary hover:bg-primary/90"
                   style={{ backgroundColor: 'oklch(47.22% 0.1834 290.74)' }}
                 >
-                  <Plus className="mr-2" />
+                  <Plus className="mr-2" style={{ color: 'inherit' }} />
                   Nouvelle Catégorie
                 </Button>
               </div>
               <div className="flex gap-4 mt-4">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Search 
+                    className="absolute left-3 top-3 h-4 w-4" 
+                    style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
+                  />
                   <Input
                     placeholder="Rechercher une catégorie..."
                     value={searchQuery}

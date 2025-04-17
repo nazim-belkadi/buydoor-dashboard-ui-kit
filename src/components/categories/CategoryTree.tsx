@@ -76,22 +76,24 @@ export default function CategoryTree({
                 <Button 
                   variant="ghost" 
                   size="icon"
+                  style={{ color: 'oklch(47.22% 0.1834 290.74)' }}
                   onClick={(e) => {
                     e.stopPropagation();
                     onAddSubCategory(category.id);
                   }}
                 >
-                  <FolderPlus className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                  <FolderPlus className="h-4 w-4" />
                 </Button>
                 <Button 
                   variant="ghost" 
                   size="icon"
+                  style={{ color: 'oklch(47.22% 0.1834 290.74)' }}
                   onClick={(e) => {
                     e.stopPropagation();
                     onDeleteCategory(category.id);
                   }}
                 >
-                  <Trash2 className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
             </div>
