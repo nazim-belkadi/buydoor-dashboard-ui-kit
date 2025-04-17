@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronRight, ChevronDown, Folder, FolderPlus, Edit, Trash2, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -99,7 +100,7 @@ export default function CategoryTree({
       
       <div className="space-y-2">
         {filteredCategories.map(category => (
-          <div key={category.id} className="rounded-lg border bg-card text-card-foreground">
+          <div key={category.id} className="rounded-lg border bg-card text-card-foreground dark:border-gray-700">
             <Collapsible 
               open={openCategories.has(category.id)}
               onOpenChange={() => toggleCategory(category.id)}

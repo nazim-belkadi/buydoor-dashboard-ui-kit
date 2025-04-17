@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -58,13 +59,16 @@ export default function Categories() {
               <h1 className="text-3xl font-bold mb-1">Gestion des Catégories</h1>
               <p className="text-muted-foreground">Gérez vos catégories et sous-catégories</p>
             </div>
-            <SidebarTrigger 
-              className="lg:hidden" 
-              style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
-            />
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <SidebarTrigger 
+                className="lg:hidden" 
+                style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
+              />
+            </div>
           </div>
 
-          <Card className="bg-white shadow-lg">
+          <Card className="bg-card shadow-lg dark:border-gray-700">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-2xl font-bold">Liste des Catégories</CardTitle>
@@ -74,6 +78,7 @@ export default function Categories() {
                     setShowCategoryDialog(true);
                   }}
                   style={{ backgroundColor: 'oklch(47.22% 0.1834 290.74)' }}
+                  className="dark:text-white"
                 >
                   <Plus className="mr-2" style={{ color: 'inherit' }} />
                   Nouvelle Catégorie
