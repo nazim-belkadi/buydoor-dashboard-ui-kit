@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Search, Package, User, FolderTree, CreditCard, Truck } from "lucide-react";
+import { Search, Package, User, FolderTree, CreditCard, Truck, LayoutDashboard } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Logo from "./Logo";
 import {
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const navItems = [
+  { icon: LayoutDashboard, label: "Accueil", path: "/" },
   { icon: Package, label: "Produit", path: "/products" },
   { icon: User, label: "Utilisateur", path: "/users" },
   { icon: FolderTree, label: "Category", path: "/categories" },
