@@ -70,9 +70,9 @@ export default function Categories() {
                     setShowCategoryDialog(true);
                   }}
                   className="bg-primary hover:bg-primary/90"
-                  style={{ color: 'oklch(47.22% 0.1834 290.74)' }}
+                  style={{ backgroundColor: 'oklch(47.22% 0.1834 290.74)' }}
                 >
-                  <Plus className="mr-2" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                  <Plus className="mr-2" />
                   Nouvelle Catégorie
                 </Button>
               </div>
