@@ -82,7 +82,8 @@ const mockProducts: Product[] = [
 const CURRENCY_RATES = {
   EUR: 1,
   USD: 1.09,
-  GBP: 0.86
+  GBP: 0.86,
+  DZD: 146.50
 };
 
 type Currency = keyof typeof CURRENCY_RATES;
@@ -112,7 +113,8 @@ const Products = () => {
     const symbols = {
       EUR: "€",
       USD: "$",
-      GBP: "£"
+      GBP: "£",
+      DZD: "DA"
     };
     return `${price} ${symbols[currency]}`;
   };
@@ -297,6 +299,7 @@ const Products = () => {
                     <SelectItem value="EUR">EUR €</SelectItem>
                     <SelectItem value="USD">USD $</SelectItem>
                     <SelectItem value="GBP">GBP £</SelectItem>
+                    <SelectItem value="DZD">DZD DA</SelectItem>
                   </SelectContent>
                 </Select>
 
