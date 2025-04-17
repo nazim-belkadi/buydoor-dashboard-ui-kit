@@ -128,7 +128,7 @@ const Payments = () => {
         <main className="flex-1 p-8">
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-3xl font-bold">Méthodes de paiement</h1>
+              <h1 className="text-3xl font-bold">Payment Methods</h1>
               <div className="flex items-center gap-2">
                 {selectedMethods.length > 0 ? (
                   <AlertDialog>
@@ -138,20 +138,20 @@ const Payments = () => {
                         className="flex items-center gap-2"
                       >
                         <Trash2 className="h-4 w-4" />
-                        Supprimer ({selectedMethods.length})
+                        Delete ({selectedMethods.length})
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Cette action est irréversible. Cela supprimera définitivement {selectedMethods.length} méthode(s) de paiement sélectionnée(s).
+                          This action cannot be undone. This will permanently delete {selectedMethods.length} selected payment method(s).
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Annuler</AlertDialogCancel>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={handleDeleteSelected}>
-                          Continuer
+                          Continue
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
@@ -164,24 +164,24 @@ const Payments = () => {
                         style={{ backgroundColor: 'oklch(47.22% 0.1834 290.74)' }}
                       >
                         <Plus className="h-4 w-4" />
-                        Ajouter une méthode
+                        Add Method
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Ajouter une méthode de paiement</DialogTitle>
+                        <DialogTitle>Add Payment Method</DialogTitle>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
                         <div className="grid gap-2">
                           <Input
-                            placeholder="ID de la méthode"
+                            placeholder="Method ID"
                             value={newPayment.id}
                             onChange={(e) => setNewPayment(prev => ({ ...prev, id: e.target.value }))}
                           />
                         </div>
                         <div className="grid gap-2">
                           <Input
-                            placeholder="Nom de la méthode"
+                            placeholder="Method Name"
                             value={newPayment.name}
                             onChange={(e) => setNewPayment(prev => ({ ...prev, name: e.target.value }))}
                           />
@@ -194,7 +194,7 @@ const Payments = () => {
                             }
                           >
                             <SelectTrigger>
-                              <SelectValue placeholder="Type de paiement" />
+                              <SelectValue placeholder="Payment Type" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="COD">Cash On Delivery (COD)</SelectItem>
@@ -205,7 +205,7 @@ const Payments = () => {
                         </div>
                       </div>
                       <DialogFooter>
-                        <Button onClick={handleAddPayment}>Ajouter</Button>
+                        <Button onClick={handleAddPayment}>Add</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
@@ -219,7 +219,7 @@ const Payments = () => {
                 style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
               />
               <Input
-                placeholder="Rechercher par ID, nom ou type..."
+                placeholder="Search by ID, name or type..."
                 className="pl-9"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}

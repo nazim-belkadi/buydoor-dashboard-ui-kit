@@ -161,8 +161,8 @@ const Products = () => {
   const handleDeleteSelected = () => {
     setProducts(prev => prev.filter(product => !selectedProducts.includes(product.id)));
     toast({
-      title: "Produits supprimés",
-      description: `${selectedProducts.length} produit(s) ont été supprimés.`,
+      title: "Products deleted",
+      description: `${selectedProducts.length} product(s) have been deleted.`,
     });
     setSelectedProducts([]);
   };
@@ -170,8 +170,8 @@ const Products = () => {
   const handleAddProduct = () => {
     if (!newProduct.name || newProduct.price <= 0) {
       toast({
-        title: "Erreur",
-        description: "Veuillez remplir tous les champs requis",
+        title: "Error",
+        description: "Please fill in all required fields",
         variant: "destructive",
       });
       return;
@@ -179,8 +179,8 @@ const Products = () => {
 
     setProducts(prev => [...prev, { ...newProduct, id: prev.length + 1 }]);
     toast({
-      title: "Produit ajouté",
-      description: "Le nouveau produit a été ajouté avec succès.",
+      title: "Product added",
+      description: "The new product has been added successfully.",
     });
     setNewProduct({
       id: 0,
@@ -199,7 +199,7 @@ const Products = () => {
         <main className="flex-1 p-8">
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-3xl font-bold">Produits</h1>
+              <h1 className="text-3xl font-bold">Products</h1>
               <div className="flex items-center gap-2">
                 {selectedProducts.length > 0 ? (
                   <AlertDialog>
@@ -209,20 +209,20 @@ const Products = () => {
                         className="flex items-center gap-2"
                       >
                         <Trash2 className="h-4 w-4" />
-                        Supprimer ({selectedProducts.length})
+                        Delete ({selectedProducts.length})
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Cette action est irréversible. Cela supprimera définitivement {selectedProducts.length} produit(s) sélectionné(s).
+                          This action cannot be undone. This will permanently delete {selectedProducts.length} selected product(s).
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Annuler</AlertDialogCancel>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={handleDeleteSelected}>
-                          Continuer
+                          Continue
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
@@ -235,12 +235,12 @@ const Products = () => {
                         style={{ backgroundColor: 'oklch(47.22% 0.1834 290.74)' }}
                       >
                         <Plus className="h-4 w-4" />
-                        Ajouter un produit
+                        Add Product
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Ajouter un produit</DialogTitle>
+                        <DialogTitle>Add Product</DialogTitle>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
                         <div className="grid gap-2">
@@ -253,14 +253,14 @@ const Products = () => {
                         </div>
                         <div className="grid gap-2">
                           <Input
-                            placeholder="Nom du produit"
+                            placeholder="Name of product"
                             value={newProduct.name}
                             onChange={(e) => setNewProduct(prev => ({ ...prev, name: e.target.value }))}
                           />
                         </div>
                         <div className="grid gap-2">
                           <Input
-                            placeholder="Prix"
+                            placeholder="Price"
                             type="number"
                             value={newProduct.price}
                             onChange={(e) => setNewProduct(prev => ({ ...prev, price: parseInt(e.target.value) }))}
@@ -276,7 +276,7 @@ const Products = () => {
                         </div>
                       </div>
                       <DialogFooter>
-                        <Button onClick={handleAddProduct}>Ajouter</Button>
+                        <Button onClick={handleAddProduct}>Add</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
@@ -287,7 +287,7 @@ const Products = () => {
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
               <Input
-                placeholder="Rechercher par ID, nom, prix..."
+                placeholder="Search by ID, name, price..."
                 className="pl-9"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -301,7 +301,7 @@ const Products = () => {
                   onValueChange={(value: Currency) => setSelectedCurrency(value)}
                 >
                   <SelectTrigger className="w-[100px]">
-                    <SelectValue placeholder="Devise" />
+                    <SelectValue placeholder="Currency" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="EUR">EUR €</SelectItem>
@@ -312,7 +312,7 @@ const Products = () => {
                 </Select>
 
                 <div className="flex flex-col gap-2 w-[300px]">
-                  <label className="text-sm font-medium">Filtrer par prix</label>
+                  <label className="text-sm font-medium">Filter by price</label>
                   <div className="flex items-center gap-4">
                     <span className="text-sm">
                       {formatPrice(convertPrice(priceRange[0], selectedCurrency), selectedCurrency)}
@@ -343,7 +343,7 @@ const Products = () => {
                       {selectedDate ? (
                         format(selectedDate, 'dd/MM/yyyy', { locale: fr })
                       ) : (
-                        "Filtrer par date"
+                        "Filter by date"
                       )}
                     </Button>
                   </PopoverTrigger>

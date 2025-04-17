@@ -122,8 +122,8 @@ const Users = () => {
   const handleDeleteSelected = () => {
     setUsers(prevUsers => prevUsers.filter(user => !selectedUsers.includes(user.id)));
     toast({
-      title: "Utilisateurs supprimés",
-      description: `${selectedUsers.length} utilisateur(s) ont été supprimés.`,
+      title: "Users deleted",
+      description: `${selectedUsers.length} user(s) have been deleted.`,
     });
     setSelectedUsers([]);
   };
@@ -149,7 +149,7 @@ const Users = () => {
         <main className="flex-1 p-8">
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-3xl font-bold">Utilisateurs</h1>
+              <h1 className="text-3xl font-bold">Users</h1>
               {selectedUsers.length > 0 && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
@@ -158,20 +158,20 @@ const Users = () => {
                       className="flex items-center gap-2"
                     >
                       <Trash2 className="h-4 w-4" />
-                      Supprimer ({selectedUsers.length})
+                      Delete ({selectedUsers.length})
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
+                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Cette action est irréversible. Cela supprimera définitivement {selectedUsers.length} utilisateur(s) sélectionné(s).
+                        This action cannot be undone. This will permanently delete {selectedUsers.length} selected user(s).
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction onClick={handleDeleteSelected}>
-                        Continuer
+                        Continue
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -182,7 +182,7 @@ const Users = () => {
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Rechercher par ID, nom ou email..."
+                placeholder="Search by ID, name or email..."
                 className="pl-9"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -195,11 +195,11 @@ const Users = () => {
                 onValueChange={(value) => setFilters(prev => ({ ...prev, role: value }))}
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Rôle" />
+                  <SelectValue placeholder="Role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tous les rôles</SelectItem>
-                  <SelectItem value="user">Utilisateur</SelectItem>
+                  <SelectItem value="all">All roles</SelectItem>
+                  <SelectItem value="user">User</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
                 </SelectContent>
               </Select>
@@ -209,13 +209,13 @@ const Users = () => {
                 onValueChange={(value) => setFilters(prev => ({ ...prev, adminLevel: value }))}
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Niveau Admin" />
+                  <SelectValue placeholder="Admin Level" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tous les niveaux</SelectItem>
-                  <SelectItem value="0">Niveau 0</SelectItem>
-                  <SelectItem value="1">Niveau 1</SelectItem>
-                  <SelectItem value="2">Niveau 2</SelectItem>
+                  <SelectItem value="all">All levels</SelectItem>
+                  <SelectItem value="0">Level 0</SelectItem>
+                  <SelectItem value="1">Level 1</SelectItem>
+                  <SelectItem value="2">Level 2</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -224,12 +224,12 @@ const Users = () => {
                 onValueChange={(value) => setFilters(prev => ({ ...prev, isBanned: value }))}
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Statut Ban" />
+                  <SelectValue placeholder="Ban Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tous</SelectItem>
-                  <SelectItem value="true">Banni</SelectItem>
-                  <SelectItem value="false">Non banni</SelectItem>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="true">Banned</SelectItem>
+                  <SelectItem value="false">Not banned</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -238,12 +238,12 @@ const Users = () => {
                 onValueChange={(value) => setFilters(prev => ({ ...prev, emailConfirmed: value }))}
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Email confirmé" />
+                  <SelectValue placeholder="Email confirmed" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tous</SelectItem>
-                  <SelectItem value="true">Confirmé</SelectItem>
-                  <SelectItem value="false">Non confirmé</SelectItem>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="true">Confirmed</SelectItem>
+                  <SelectItem value="false">Not confirmed</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -255,7 +255,7 @@ const Users = () => {
                       {selectedDate ? (
                         format(selectedDate, 'dd/MM/yyyy', { locale: fr })
                       ) : (
-                        "Date de création"
+                        "Creation date"
                       )}
                     </Button>
                   </PopoverTrigger>
@@ -287,7 +287,7 @@ const Users = () => {
                 onClick={handleResetFilters}
               >
                 <FilterX className="h-4 w-4" />
-                Réinitialiser les filtres
+                Reset filters
               </Button>
             </div>
 

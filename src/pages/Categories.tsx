@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -56,8 +55,8 @@ export default function Categories() {
         <main className="flex-1 p-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold mb-1">Gestion des Catégories</h1>
-              <p className="text-muted-foreground">Gérez vos catégories et sous-catégories</p>
+              <h1 className="text-3xl font-bold mb-1">Category Management</h1>
+              <p className="text-muted-foreground">Manage your categories and subcategories</p>
             </div>
             <div className="flex items-center gap-4">
               <ThemeToggle />
@@ -71,7 +70,7 @@ export default function Categories() {
           <Card className="bg-card shadow-lg dark:border-gray-700">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-2xl font-bold">Liste des Catégories</CardTitle>
+                <CardTitle className="text-2xl font-bold">Categories List</CardTitle>
                 <Button 
                   onClick={() => {
                     setParentCategoryId(null);
@@ -81,7 +80,7 @@ export default function Categories() {
                   className="dark:text-white"
                 >
                   <Plus className="mr-2" style={{ color: 'inherit' }} />
-                  Nouvelle Catégorie
+                  New Category
                 </Button>
               </div>
               <div className="flex gap-4 mt-4">
@@ -91,7 +90,7 @@ export default function Categories() {
                     style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
                   />
                   <Input
-                    placeholder="Rechercher une catégorie..."
+                    placeholder="Search categories..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10"

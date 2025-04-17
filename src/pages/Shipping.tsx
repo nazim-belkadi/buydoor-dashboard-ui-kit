@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
@@ -75,8 +74,8 @@ const Shipping = () => {
   const handleDeleteSelected = () => {
     setShippingMethods(prev => prev.filter(method => !selectedMethods.includes(method.id)));
     toast({
-      title: "Méthodes d'expédition supprimées",
-      description: `${selectedMethods.length} méthode(s) d'expédition ont été supprimées.`,
+      title: "Shipping Methods Deleted",
+      description: `${selectedMethods.length} shipping method(s) have been deleted.`,
     });
     setSelectedMethods([]);
   };
@@ -84,8 +83,8 @@ const Shipping = () => {
   const handleAddShipping = () => {
     if (!newShipping.id || !newShipping.name) {
       toast({
-        title: "Erreur",
-        description: "Veuillez remplir tous les champs",
+        title: "Error",
+        description: "Please fill in all fields",
         variant: "destructive",
       });
       return;
@@ -94,8 +93,8 @@ const Shipping = () => {
     const exists = shippingMethods.some(method => method.id === newShipping.id);
     if (exists) {
       toast({
-        title: "Erreur",
-        description: "Cet ID existe déjà",
+        title: "Error",
+        description: "This ID already exists",
         variant: "destructive",
       });
       return;
@@ -103,8 +102,8 @@ const Shipping = () => {
 
     setShippingMethods(prev => [...prev, newShipping]);
     toast({
-      title: "Méthode d'expédition ajoutée",
-      description: "La nouvelle méthode d'expédition a été ajoutée avec succès.",
+      title: "Shipping Method Added",
+      description: "The new shipping method has been added successfully.",
     });
     setNewShipping({ id: "", name: "", base_price: 0 });
   };
@@ -116,7 +115,7 @@ const Shipping = () => {
         <main className="flex-1 p-8">
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-3xl font-bold">Méthodes d'expédition</h1>
+              <h1 className="text-3xl font-bold">Shipping Methods</h1>
               <div className="flex items-center gap-2">
                 {selectedMethods.length > 0 ? (
                   <AlertDialog>
@@ -126,20 +125,20 @@ const Shipping = () => {
                         className="flex items-center gap-2"
                       >
                         <Trash2 className="h-4 w-4" />
-                        Supprimer ({selectedMethods.length})
+                        Delete ({selectedMethods.length})
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Cette action est irréversible. Cela supprimera définitivement {selectedMethods.length} méthode(s) d'expédition sélectionnée(s).
+                          This action cannot be undone. This will permanently delete {selectedMethods.length} selected shipping method(s).
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Annuler</AlertDialogCancel>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={handleDeleteSelected}>
-                          Continuer
+                          Continue
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
@@ -152,24 +151,24 @@ const Shipping = () => {
                         style={{ backgroundColor: 'oklch(47.22% 0.1834 290.74)' }}
                       >
                         <Plus className="h-4 w-4" />
-                        Ajouter une méthode
+                        Add Method
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Ajouter une méthode d'expédition</DialogTitle>
+                        <DialogTitle>Add Shipping Method</DialogTitle>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
                         <div className="grid gap-2">
                           <Input
-                            placeholder="ID de la méthode"
+                            placeholder="Method ID"
                             value={newShipping.id}
                             onChange={(e) => setNewShipping(prev => ({ ...prev, id: e.target.value }))}
                           />
                         </div>
                         <div className="grid gap-2">
                           <Input
-                            placeholder="Nom de la méthode"
+                            placeholder="Method Name"
                             value={newShipping.name}
                             onChange={(e) => setNewShipping(prev => ({ ...prev, name: e.target.value }))}
                           />
@@ -177,14 +176,14 @@ const Shipping = () => {
                         <div className="grid gap-2">
                           <Input
                             type="number"
-                            placeholder="Prix de base"
+                            placeholder="Base Price"
                             value={newShipping.base_price}
                             onChange={(e) => setNewShipping(prev => ({ ...prev, base_price: Number(e.target.value) }))}
                           />
                         </div>
                       </div>
                       <DialogFooter>
-                        <Button onClick={handleAddShipping}>Ajouter</Button>
+                        <Button onClick={handleAddShipping}>Add</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
@@ -198,7 +197,7 @@ const Shipping = () => {
                 style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
               />
               <Input
-                placeholder="Rechercher par ID, nom ou prix..."
+                placeholder="Search by ID, name or price..."
                 className="pl-9"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -251,4 +250,3 @@ const Shipping = () => {
 };
 
 export default Shipping;
-
