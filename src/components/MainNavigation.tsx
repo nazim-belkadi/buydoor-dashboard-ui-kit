@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Search, Package, User, FolderTree, CreditCard, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -39,7 +40,7 @@ const MainNavigation = () => {
       <div className="pt-16">
         <SidebarHeader className="p-4">
           <div className="relative w-full">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-3 h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
             <Input 
               placeholder="Rechercher..." 
               className="w-full pl-9 h-10 bg-background border-border"
@@ -59,7 +60,7 @@ const MainNavigation = () => {
                       className="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent rounded-md transition-colors"
                       onClick={() => window.location.href = item.path}
                     >
-                      <item.icon className="h-5 w-5 text-muted-foreground" />
+                      <item.icon className="h-5 w-5" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
                       <span className="text-sm font-medium">{item.label}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -74,3 +75,4 @@ const MainNavigation = () => {
 };
 
 export default MainNavigation;
+
