@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ChevronRight, ChevronDown, Folder, FolderPlus, Edit, Trash2, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -99,21 +100,21 @@ export default function CategoryTree({
       
       <div className="space-y-2">
         {filteredCategories.map(category => (
-          <div key={category.id} className="rounded-lg border bg-card text-card-foreground">
+          <div key={category.id} className="rounded-lg border bg-card text-card-foreground shadow-sm dark:border-border">
             <Collapsible 
               open={openCategories.has(category.id)}
               onOpenChange={() => toggleCategory(category.id)}
             >
-              <div className="flex items-center p-2 hover:bg-accent rounded-lg transition-colors">
+              <div className="flex items-center p-2 hover:bg-accent hover:text-accent-foreground rounded-lg transition-colors">
                 <CollapsibleTrigger className="flex items-center flex-1 gap-2">
                   {category.children.length > 0 ? (
                     openCategories.has(category.id) ? (
-                      <ChevronDown className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                      <ChevronDown className="h-4 w-4 text-primary" />
                     ) : (
-                      <ChevronRight className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                      <ChevronRight className="h-4 w-4 text-primary" />
                     )
                   ) : (
-                    <Folder className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                    <Folder className="h-4 w-4 text-primary" />
                   )}
                   <span className="font-medium">{category.name}</span>
                 </CollapsibleTrigger>
@@ -122,7 +123,7 @@ export default function CategoryTree({
                   <Button 
                     variant="ghost" 
                     size="icon"
-                    style={{ color: 'oklch(47.22% 0.1834 290.74)' }}
+                    className="text-primary"
                     onClick={(e) => {
                       e.stopPropagation();
                       onAddSubCategory(category.id);
@@ -133,7 +134,7 @@ export default function CategoryTree({
                   <Button 
                     variant="ghost" 
                     size="icon"
-                    style={{ color: 'oklch(47.22% 0.1834 290.74)' }}
+                    className="text-primary"
                     onClick={(e) => {
                       e.stopPropagation();
                       onDeleteCategory(category.id);

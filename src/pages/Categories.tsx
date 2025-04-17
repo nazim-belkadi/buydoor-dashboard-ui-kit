@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import MainNavigation from "@/components/MainNavigation";
 import { initialCategories } from "@/data/initialCategories";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface Category {
   id: string;
@@ -58,13 +59,16 @@ export default function Categories() {
               <h1 className="text-3xl font-bold mb-1">Gestion des Catégories</h1>
               <p className="text-muted-foreground">Gérez vos catégories et sous-catégories</p>
             </div>
-            <SidebarTrigger 
-              className="lg:hidden" 
-              style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
-            />
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <SidebarTrigger 
+                className="lg:hidden"
+                aria-label="Toggle sidebar"
+              />
+            </div>
           </div>
 
-          <Card className="bg-white shadow-lg">
+          <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-2xl font-bold">Liste des Catégories</CardTitle>
@@ -73,17 +77,16 @@ export default function Categories() {
                     setParentCategoryId(null);
                     setShowCategoryDialog(true);
                   }}
-                  style={{ backgroundColor: 'oklch(47.22% 0.1834 290.74)' }}
+                  className="bg-primary text-primary-foreground"
                 >
-                  <Plus className="mr-2" style={{ color: 'inherit' }} />
+                  <Plus className="mr-2" />
                   Nouvelle Catégorie
                 </Button>
               </div>
               <div className="flex gap-4 mt-4">
                 <div className="relative flex-1">
                   <Search 
-                    className="absolute left-3 top-3 h-4 w-4" 
-                    style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
+                    className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" 
                   />
                   <Input
                     placeholder="Rechercher une catégorie..."
