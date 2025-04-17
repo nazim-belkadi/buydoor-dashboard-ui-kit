@@ -6,7 +6,7 @@ export const RecentActivities = () => {
   return (
     <Card>
       <CardContent className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Activités récentes</h3>
+        <h3 className="text-lg font-semibold mb-4">Recent Activities</h3>
         <div className="space-y-4">
           {[1, 2, 3].map(i => (
             <div key={i} className="flex items-center gap-4 border-b pb-4 last:border-0 last:pb-0">
@@ -14,8 +14,8 @@ export const RecentActivities = () => {
                 <Users className="h-5 w-5 text-muted-foreground" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
               </div>
               <div>
-                <p className="font-medium">Nouvel utilisateur inscrit</p>
-                <p className="text-sm text-muted-foreground">Il y a {i * 5} minutes</p>
+                <p className="font-medium">New user registered</p>
+                <p className="text-sm text-muted-foreground">{i * 5} minutes ago</p>
               </div>
             </div>
           ))}

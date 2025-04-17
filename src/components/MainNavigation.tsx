@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Search, Package, User, FolderTree, CreditCard, Truck, LayoutDashboard } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -14,11 +15,11 @@ import {
 } from "@/components/ui/sidebar";
 
 const navItems = [
-  { icon: LayoutDashboard, label: "Accueil", path: "/" },
-  { icon: Package, label: "Produit", path: "/products" },
-  { icon: User, label: "Utilisateur", path: "/users" },
-  { icon: FolderTree, label: "Category", path: "/categories" },
-  { icon: CreditCard, label: "Payment", path: "/payments" },
+  { icon: LayoutDashboard, label: "Home", path: "/" },
+  { icon: Package, label: "Products", path: "/products" },
+  { icon: User, label: "Users", path: "/users" },
+  { icon: FolderTree, label: "Categories", path: "/categories" },
+  { icon: CreditCard, label: "Payments", path: "/payments" },
   { icon: Truck, label: "Shipping", path: "/shipping" },
 ];
 
@@ -45,7 +46,7 @@ const MainNavigation = () => {
               style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
             />
             <Input 
-              placeholder="Rechercher..." 
+              placeholder="Search..." 
               className="w-full pl-9 h-10 bg-background border-border"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

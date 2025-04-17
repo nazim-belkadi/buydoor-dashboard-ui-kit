@@ -15,8 +15,8 @@ const Index = () => {
         <main className="flex-1 p-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold mb-1">Tableau de bord</h1>
-              <p className="text-muted-foreground">Bienvenue sur votre espace Buydoor</p>
+              <h1 className="text-3xl font-bold mb-1">Dashboard</h1>
+              <p className="text-muted-foreground">Welcome to your Buydoor portal</p>
             </div>
             <div className="flex items-center gap-4">
               <ThemeToggle />

@@ -5,18 +5,18 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 
 const data = [
   { month: "Jan", users: 120 },
-  { month: "Fév", users: 180 },
-  { month: "Mars", users: 250 },
-  { month: "Avr", users: 310 },
-  { month: "Mai", users: 420 },
-  { month: "Juin", users: 500 },
+  { month: "Feb", users: 180 },
+  { month: "Mar", users: 250 },
+  { month: "Apr", users: 310 },
+  { month: "May", users: 420 },
+  { month: "Jun", users: 500 },
 ];
 
 export const UsersChart = () => {
   return (
     <Card>
       <CardContent className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Évolution des utilisateurs</h3>
+        <h3 className="text-lg font-semibold mb-4">User Growth</h3>
         <div className="h-[300px] w-full">
           <ChartContainer
             className="w-full"
