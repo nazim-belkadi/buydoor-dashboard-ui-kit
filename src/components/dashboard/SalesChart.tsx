@@ -1,50 +1,38 @@
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const data = [
   { name: "Jan", sales: 4000 },
-  { name: "Fév", sales: 3000 },
-  { name: "Mars", sales: 2000 },
-  { name: "Avr", sales: 2780 },
-  { name: "Mai", sales: 1890 },
-  { name: "Juin", sales: 2390 },
+  { name: "Feb", sales: 3000 },
+  { name: "Mar", sales: 5000 },
+  { name: "Apr", sales: 2780 },
+  { name: "May", sales: 1890 },
+  { name: "Jun", sales: 2390 },
 ];
 
 export const SalesChart = () => {
   return (
     <Card>
       <CardContent className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Ventes mensuelles</h3>
+        <h3 className="text-lg font-semibold mb-4">Sales Overview</h3>
         <div className="h-[300px] w-full">
-          <ChartContainer
-            className="w-full"
-            config={{
-              sales: {
-                theme: {
-                  light: "oklch(47.22% 0.1834 290.74)",
-                  dark: "oklch(47.22% 0.1834 290.74)",
-                },
-              },
-            }}
-          >
-            <LineChart data={data}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
-              <ChartTooltip />
-              <Line
-                type="monotone"
-                dataKey="sales"
-                stroke="var(--color-sales)"
-                strokeWidth={2}
+              <Tooltip />
+              <Line 
+                type="monotone" 
+                dataKey="sales" 
+                stroke="oklch(47.22% 0.1834 290.74)" 
+                activeDot={{ r: 8 }} 
               />
             </LineChart>
-          </ChartContainer>
+          </ResponsiveContainer>
         </div>
       </CardContent>
     </Card>
   );
 };
-

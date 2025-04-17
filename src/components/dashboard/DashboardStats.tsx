@@ -31,10 +31,10 @@ const StatCard = ({
 export const DashboardStats = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <StatCard title="Total Utilisateurs" value="1,234" icon={Users} colorClass="bg-blue-100 text-blue-600" />
-      <StatCard title="Commandes" value="156" icon={ShoppingCart} colorClass="bg-green-100 text-green-600" />
-      <StatCard title="Ventes" value="€8,234" icon={TrendingUp} colorClass="bg-purple-100 text-purple-600" />
-      <StatCard title="Produits" value="89" icon={LayoutDashboard} colorClass="bg-orange-100 text-orange-600" />
+      <StatCard title="Total Users" value="1,234" icon={Users} colorClass="bg-blue-100 text-blue-600" />
+      <StatCard title="Orders" value="156" icon={ShoppingCart} colorClass="bg-green-100 text-green-600" />
+      <StatCard title="Sales" value="$8,234" icon={TrendingUp} colorClass="bg-purple-100 text-purple-600" />
+      <StatCard title="Products" value="89" icon={LayoutDashboard} colorClass="bg-orange-100 text-orange-600" />
     </div>
   );
 };
