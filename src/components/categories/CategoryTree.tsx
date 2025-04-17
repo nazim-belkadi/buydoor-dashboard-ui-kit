@@ -1,4 +1,5 @@
 
+import React, { useState, useEffect } from "react";
 import { ChevronRight, ChevronDown, Folder, FolderPlus, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -6,7 +7,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { useState } from "react";
 
 interface Category {
   id: string;
@@ -61,7 +61,7 @@ export default function CategoryTree({
     });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (searchQuery) {
       updateOpenCategories(categories, searchQuery);
     }
