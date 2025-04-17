@@ -5,6 +5,7 @@ import MainNavigation from "@/components/MainNavigation";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { RecentActivities } from "@/components/dashboard/RecentActivities";
 import { SalesChart } from "@/components/dashboard/SalesChart";
+import { UsersChart } from "@/components/dashboard/UsersChart";
 
 const Index = () => {
   return (
@@ -30,6 +31,10 @@ const Index = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <SalesChart />
+            <UsersChart />
+          </div>
+
+          <div className="w-full">
             <RecentActivities />
           </div>
         </main>
@@ -39,4 +44,3 @@ const Index = () => {
 };
 
 export default Index;
-
