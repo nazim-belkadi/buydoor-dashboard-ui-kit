@@ -2,6 +2,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Card, CardContent } from "@/components/ui/card";
 import MainNavigation from "@/components/MainNavigation";
+import Logo from "@/components/Logo";
 import { LayoutDashboard, Users, ShoppingCart, TrendingUp } from "lucide-react";
 
 const StatCard = ({
@@ -37,7 +38,7 @@ const Index = () => {
         <main className="flex-1 p-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold mb-1">Tableau de bord</h1>
+              <Logo className="mb-4" />
               <p className="text-muted-foreground">Bienvenue sur votre espace Buydoor</p>
             </div>
             <SidebarTrigger 
@@ -85,4 +86,3 @@ const Index = () => {
     </SidebarProvider>;
 };
 export default Index;
-

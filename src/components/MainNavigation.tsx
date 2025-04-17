@@ -1,7 +1,8 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Search, Package, User, FolderTree, CreditCard, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import Logo from "./Logo";
 import {
   Sidebar,
   SidebarContent,
@@ -32,8 +33,7 @@ const MainNavigation = () => {
     <Sidebar>
       <div className="fixed top-0 left-0 w-64 bg-background shadow-sm z-50">
         <div className="flex items-center justify-center h-16 border-b border-border">
-          <span className="text-2xl font-bold text-primary">Buy</span>
-          <span className="text-2xl font-bold text-blue-600">door</span>
+          <Logo />
         </div>
       </div>
 
