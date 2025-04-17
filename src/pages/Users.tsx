@@ -25,6 +25,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Calendar as CalendarIcon } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { fr } from 'date-fns/locale';
 
 interface User {
   id: string;
@@ -73,6 +82,7 @@ const Users = () => {
   const [users, setUsers] = useState(mockUsers);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date>();
   const { toast } = useToast();
   const [filters, setFilters] = useState({
     role: "all",
@@ -93,8 +103,12 @@ const Users = () => {
       (filters.isBanned === "true" ? user.is_banned : !user.is_banned);
     const matchesEmailConfirmed = filters.emailConfirmed === "all" ||
       (filters.emailConfirmed === "true" ? user.email_confirmed_at !== null : user.email_confirmed_at === null);
+    const matchesDate = selectedDate
+      ? format(new Date(user.created_at), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')
+      : true;
 
-    return matchesSearch && matchesRole && matchesAdminLevel && matchesIsBanned && matchesEmailConfirmed;
+    return matchesSearch && matchesRole && matchesAdminLevel && matchesIsBanned && 
+           matchesEmailConfirmed && matchesDate;
   });
 
   const handleSelectUser = (userId: string) => {
@@ -121,6 +135,7 @@ const Users = () => {
       isBanned: "all",
       emailConfirmed: "all",
     });
+    setSelectedDate(undefined);
   };
 
   const handleSelectAllUsers = (checked: boolean) => {
@@ -232,6 +247,40 @@ const Users = () => {
                 </SelectContent>
               </Select>
 
+              <div className="flex items-center gap-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2 w-[180px]">
+                      <CalendarIcon className="h-4 w-4" />
+                      {selectedDate ? (
+                        format(selectedDate, 'dd/MM/yyyy', { locale: fr })
+                      ) : (
+                        "Date de création"
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={setSelectedDate}
+                      locale={fr}
+                      className="pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                {selectedDate && (
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setSelectedDate(undefined)}
+                    className="h-9 px-2"
+                  >
+                    ✕
+                  </Button>
+                )}
+              </div>
+
               <Button 
                 variant="outline" 
                 className="flex items-center gap-2"
@@ -278,8 +327,12 @@ const Users = () => {
                       (filters.isBanned === "true" ? user.is_banned : !user.is_banned);
                     const matchesEmailConfirmed = filters.emailConfirmed === "all" ||
                       (filters.emailConfirmed === "true" ? user.email_confirmed_at !== null : user.email_confirmed_at === null);
+                    const matchesDate = selectedDate
+                      ? format(new Date(user.created_at), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')
+                      : true;
 
-                    return matchesSearch && matchesRole && matchesAdminLevel && matchesIsBanned && matchesEmailConfirmed;
+                    return matchesSearch && matchesRole && matchesAdminLevel && matchesIsBanned && 
+                           matchesEmailConfirmed && matchesDate;
                   }).map((user) => (
                     <TableRow key={user.id}>
                       <TableCell>

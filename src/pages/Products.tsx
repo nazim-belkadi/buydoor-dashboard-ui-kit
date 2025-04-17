@@ -1,11 +1,10 @@
-
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Search, Trash2, Plus } from "lucide-react";
+import { Search, Trash2, Plus, Calendar as CalendarIcon } from "lucide-react";
 import MainNavigation from "@/components/MainNavigation";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -27,6 +26,15 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Slider } from "@/components/ui/slider";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { fr } from 'date-fns/locale';
 
 interface Product {
   id: number;
@@ -68,6 +76,8 @@ const Products = () => {
   const [products, setProducts] = useState(mockProducts);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [selectedDate, setSelectedDate] = useState<Date>();
   const [newProduct, setNewProduct] = useState<Product>({
     id: 0,
     store_id: 0,
@@ -78,13 +88,22 @@ const Products = () => {
   });
   const { toast } = useToast();
 
-  const filteredProducts = products.filter(product =>
-    product.id.toString().includes(searchQuery) ||
-    product.store_id.toString().includes(searchQuery) ||
-    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.price.toString().includes(searchQuery) ||
-    product.stock.toString().includes(searchQuery)
-  );
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = 
+      product.id.toString().includes(searchQuery) ||
+      product.store_id.toString().includes(searchQuery) ||
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.price.toString().includes(searchQuery) ||
+      product.stock.toString().includes(searchQuery);
+
+    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+    
+    const matchesDate = selectedDate
+      ? format(new Date(product.created_at), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')
+      : true;
+
+    return matchesSearch && matchesPrice && matchesDate;
+  });
 
   const handleSelectProduct = (productId: number) => {
     setSelectedProducts(prev =>
@@ -221,16 +240,64 @@ const Products = () => {
             </div>
 
             <div className="relative">
-              <Search 
-                className="absolute left-3 top-3 h-4 w-4" 
-                style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
-              />
+              <Search className="absolute left-3 top-3 h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
               <Input
                 placeholder="Rechercher par ID, nom, prix..."
                 className="pl-9"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+            </div>
+
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex flex-col gap-2 w-[300px]">
+                <label className="text-sm font-medium">Filtrer par prix</label>
+                <div className="flex items-center gap-4">
+                  <span className="text-sm">{priceRange[0]}€</span>
+                  <Slider
+                    value={priceRange}
+                    onValueChange={setPriceRange}
+                    max={10000}
+                    step={100}
+                    className="flex-1"
+                  />
+                  <span className="text-sm">{priceRange[1]}€</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      <CalendarIcon className="h-4 w-4" />
+                      {selectedDate ? (
+                        format(selectedDate, 'dd/MM/yyyy', { locale: fr })
+                      ) : (
+                        "Filtrer par date"
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={setSelectedDate}
+                      locale={fr}
+                      className="pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                {selectedDate && (
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setSelectedDate(undefined)}
+                    className="h-9 px-2"
+                  >
+                    ✕
+                  </Button>
+                )}
+              </div>
             </div>
 
             <div className="rounded-md border">
@@ -285,4 +352,3 @@ const Products = () => {
 };
 
 export default Products;
-
