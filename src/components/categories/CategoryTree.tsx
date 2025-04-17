@@ -1,3 +1,4 @@
+
 import { ChevronRight, ChevronDown, Folder, FolderPlus, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +22,12 @@ interface CategoryTreeProps {
   level?: number;
 }
 
+const searchInCategory = (category: Category, query: string): boolean => {
+  const matchesName = category.name.toLowerCase().includes(query.toLowerCase());
+  const hasMatchingChildren = category.children.some(child => searchInCategory(child, query));
+  return matchesName || hasMatchingChildren;
+};
+
 export default function CategoryTree({ 
   categories, 
   onAddSubCategory, 
@@ -42,8 +49,26 @@ export default function CategoryTree({
     });
   };
 
+  // Automatically expand categories when searching
+  const updateOpenCategories = (categories: Category[], query: string) => {
+    categories.forEach(category => {
+      if (searchInCategory(category, query)) {
+        setOpenCategories(prev => new Set(prev).add(category.id));
+        if (category.children.length > 0) {
+          updateOpenCategories(category.children, query);
+        }
+      }
+    });
+  };
+
+  React.useEffect(() => {
+    if (searchQuery) {
+      updateOpenCategories(categories, searchQuery);
+    }
+  }, [searchQuery, categories]);
+
   const filteredCategories = categories.filter(category =>
-    category.name.toLowerCase().includes(searchQuery.toLowerCase())
+    searchInCategory(category, searchQuery)
   );
 
   if (filteredCategories.length === 0) {
