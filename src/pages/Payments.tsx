@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
@@ -42,17 +43,17 @@ interface PaymentMethod {
 
 const mockPaymentMethods: PaymentMethod[] = [
   {
-    id: "14216697-97da-4809-8508-5676b1c546e2",
+    id: "1",
     name: "COD (Cash On Delivery)",
     type: "COD"
   },
   {
-    id: "45f8c803-d57a-434a-b57f-ab960ec026b1",
+    id: "2",
     name: "CIB",
     type: "CIB"
   },
   {
-    id: "5b41495b-6161-477d-82a0-4a39b1f80bb8",
+    id: "3",
     name: "Baridi Mob",
     type: "BaridiMob"
   }
