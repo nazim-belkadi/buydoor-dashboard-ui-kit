@@ -8,6 +8,7 @@ import { useState } from "react";
 import Index from "./pages/Index";
 import Users from "./pages/Users";
 import Categories from "./pages/Categories";
+import Payments from "./pages/Payments";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/users" element={<Users />} />
             <Route path="/categories" element={<Categories />} />
+            <Route path="/payments" element={<Payments />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
