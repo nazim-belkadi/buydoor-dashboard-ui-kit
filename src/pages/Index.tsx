@@ -1,7 +1,9 @@
+
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Card, CardContent } from "@/components/ui/card";
 import MainNavigation from "@/components/MainNavigation";
 import { LayoutDashboard, Users, ShoppingCart, TrendingUp } from "lucide-react";
+
 const StatCard = ({
   title,
   value,
@@ -12,7 +14,8 @@ const StatCard = ({
   value: string;
   icon: React.ElementType;
   colorClass: string;
-}) => <Card>
+}) => (
+  <Card>
     <CardContent className="p-6">
       <div className="flex items-center justify-between">
         <div>
@@ -20,11 +23,13 @@ const StatCard = ({
           <h3 className="text-2xl font-bold">{value}</h3>
         </div>
         <div className={`rounded-full p-3 ${colorClass}`}>
-          <Icon className="h-6 w-6" />
+          <Icon className="h-6 w-6" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
         </div>
       </div>
     </CardContent>
-  </Card>;
+  </Card>
+);
+
 const Index = () => {
   return <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -35,7 +40,10 @@ const Index = () => {
               <h1 className="text-3xl font-bold mb-1">Tableau de bord</h1>
               <p className="text-muted-foreground">Bienvenue sur votre espace Buydoor</p>
             </div>
-            <SidebarTrigger className="lg:hidden" />
+            <SidebarTrigger 
+              className="lg:hidden" 
+              style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -50,15 +58,20 @@ const Index = () => {
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-4">Activités récentes</h3>
                 <div className="space-y-4">
-                  {[1, 2, 3].map(i => <div key={i} className="flex items-center gap-4 border-b pb-4 last:border-0 last:pb-0">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="flex items-center gap-4 border-b pb-4 last:border-0 last:pb-0">
                       <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                        <Users className="h-5 w-5 text-muted-foreground" />
+                        <Users 
+                          className="h-5 w-5 text-muted-foreground" 
+                          style={{ color: 'oklch(47.22% 0.1834 290.74)' }} 
+                        />
                       </div>
                       <div>
                         <p className="font-medium">Nouvel utilisateur inscrit</p>
                         <p className="text-sm text-muted-foreground">Il y a {i * 5} minutes</p>
                       </div>
-                    </div>)}
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -72,3 +85,4 @@ const Index = () => {
     </SidebarProvider>;
 };
 export default Index;
+
