@@ -1,4 +1,3 @@
-
 import { ChevronRight, ChevronDown, Folder, FolderPlus, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -63,12 +62,12 @@ export default function CategoryTree({
               <CollapsibleTrigger className="flex items-center flex-1 gap-2">
                 {category.children.length > 0 ? (
                   openCategories.has(category.id) ? (
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
                   ) : (
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
                   )
                 ) : (
-                  <Folder className="h-4 w-4 text-muted-foreground" />
+                  <Folder className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
                 )}
                 <span className="font-medium">{category.name}</span>
               </CollapsibleTrigger>
@@ -82,7 +81,7 @@ export default function CategoryTree({
                     onAddSubCategory(category.id);
                   }}
                 >
-                  <FolderPlus className="h-4 w-4" />
+                  <FolderPlus className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
                 </Button>
                 <Button 
                   variant="ghost" 
@@ -92,7 +91,7 @@ export default function CategoryTree({
                     onDeleteCategory(category.id);
                   }}
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
                 </Button>
               </div>
             </div>
