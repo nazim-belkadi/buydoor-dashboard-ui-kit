@@ -5,6 +5,13 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Search, Trash2, Plus, Calendar as CalendarIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import MainNavigation from "@/components/MainNavigation";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -72,12 +79,21 @@ const mockProducts: Product[] = [
   }
 ];
 
+const CURRENCY_RATES = {
+  EUR: 1,
+  USD: 1.09,
+  GBP: 0.86
+};
+
+type Currency = keyof typeof CURRENCY_RATES;
+
 const Products = () => {
   const [products, setProducts] = useState(mockProducts);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>("EUR");
   const [newProduct, setNewProduct] = useState<Product>({
     id: 0,
     store_id: 0,
@@ -88,6 +104,19 @@ const Products = () => {
   });
   const { toast } = useToast();
 
+  const convertPrice = (priceEUR: number, targetCurrency: Currency) => {
+    return Math.round(priceEUR * CURRENCY_RATES[targetCurrency]);
+  };
+
+  const formatPrice = (price: number, currency: Currency) => {
+    const symbols = {
+      EUR: "€",
+      USD: "$",
+      GBP: "£"
+    };
+    return `${price} ${symbols[currency]}`;
+  };
+
   const filteredProducts = products.filter(product => {
     const matchesSearch = 
       product.id.toString().includes(searchQuery) ||
@@ -96,7 +125,13 @@ const Products = () => {
       product.price.toString().includes(searchQuery) ||
       product.stock.toString().includes(searchQuery);
 
-    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+    const convertedPrice = convertPrice(product.price, selectedCurrency);
+    const convertedPriceRange = [
+      convertPrice(priceRange[0], selectedCurrency),
+      convertPrice(priceRange[1], selectedCurrency)
+    ];
+    
+    const matchesPrice = convertedPrice >= convertedPriceRange[0] && convertedPrice <= convertedPriceRange[1];
     
     const matchesDate = selectedDate
       ? format(new Date(product.created_at), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')
@@ -250,18 +285,38 @@ const Products = () => {
             </div>
 
             <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex flex-col gap-2 w-[300px]">
-                <label className="text-sm font-medium">Filtrer par prix</label>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm">{priceRange[0]}€</span>
-                  <Slider
-                    value={priceRange}
-                    onValueChange={setPriceRange}
-                    max={10000}
-                    step={100}
-                    className="flex-1"
-                  />
-                  <span className="text-sm">{priceRange[1]}€</span>
+              <div className="flex items-center gap-4">
+                <Select
+                  value={selectedCurrency}
+                  onValueChange={(value: Currency) => setSelectedCurrency(value)}
+                >
+                  <SelectTrigger className="w-[100px]">
+                    <SelectValue placeholder="Devise" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="EUR">EUR €</SelectItem>
+                    <SelectItem value="USD">USD $</SelectItem>
+                    <SelectItem value="GBP">GBP £</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <div className="flex flex-col gap-2 w-[300px]">
+                  <label className="text-sm font-medium">Filtrer par prix</label>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm">
+                      {formatPrice(convertPrice(priceRange[0], selectedCurrency), selectedCurrency)}
+                    </span>
+                    <Slider
+                      value={priceRange}
+                      onValueChange={setPriceRange}
+                      max={10000}
+                      step={100}
+                      className="flex-1"
+                    />
+                    <span className="text-sm">
+                      {formatPrice(convertPrice(priceRange[1], selectedCurrency), selectedCurrency)}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -336,7 +391,7 @@ const Products = () => {
                       <TableCell className="font-medium">{product.id}</TableCell>
                       <TableCell>{product.store_id}</TableCell>
                       <TableCell>{product.name}</TableCell>
-                      <TableCell>{product.price}</TableCell>
+                      <TableCell>{formatPrice(convertPrice(product.price, selectedCurrency), selectedCurrency)}</TableCell>
                       <TableCell>{product.stock}</TableCell>
                       <TableCell>{new Date(product.created_at).toLocaleDateString()}</TableCell>
                     </TableRow>
