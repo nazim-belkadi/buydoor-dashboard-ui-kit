@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -71,8 +70,9 @@ export default function Categories() {
                     setShowCategoryDialog(true);
                   }}
                   className="bg-primary hover:bg-primary/90"
+                  style={{ color: 'oklch(47.22% 0.1834 290.74)' }}
                 >
-                  <Plus className="mr-2" />
+                  <Plus className="mr-2" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
                   Nouvelle Catégorie
                 </Button>
               </div>
