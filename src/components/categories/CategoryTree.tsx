@@ -3,12 +3,15 @@ import { ChevronRight, ChevronDown, Folder, FolderPlus, Edit, Trash2, TrendingUp
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import DeleteCategoryDialog from "./DeleteCategoryDialog";
+
 interface Category {
   id: string;
   name: string;
   children: Category[];
   popularity?: number;
 }
+
 interface CategoryTreeProps {
   categories: Category[];
   onAddSubCategory: (parentId: string) => void;
@@ -16,11 +19,13 @@ interface CategoryTreeProps {
   searchQuery: string;
   level?: number;
 }
+
 const searchInCategory = (category: Category, query: string): boolean => {
   const matchesName = category.name.toLowerCase().includes(query.toLowerCase());
   const hasMatchingChildren = category.children.some(child => searchInCategory(child, query));
   return matchesName || hasMatchingChildren;
 };
+
 export default function CategoryTree({
   categories: initialCategories,
   onAddSubCategory,
@@ -31,6 +36,9 @@ export default function CategoryTree({
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
   const [sortType, setSortType] = useState<"default" | "popularity">("default");
   const [categories, setCategories] = useState(initialCategories);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState<{ id: string; name: string } | null>(null);
+
   useEffect(() => {
     let sortedCategories = [...initialCategories];
     if (sortType === "popularity") {
@@ -38,6 +46,7 @@ export default function CategoryTree({
     }
     setCategories(sortedCategories);
   }, [sortType, initialCategories]);
+
   const toggleCategory = (categoryId: string) => {
     setOpenCategories(prev => {
       const newSet = new Set(prev);
@@ -49,6 +58,7 @@ export default function CategoryTree({
       return newSet;
     });
   };
+
   const updateOpenCategories = (categories: Category[], query: string) => {
     categories.forEach(category => {
       if (searchInCategory(category, query)) {
@@ -59,65 +69,113 @@ export default function CategoryTree({
       }
     });
   };
+
   useEffect(() => {
     if (searchQuery) {
       updateOpenCategories(categories, searchQuery);
     }
   }, [searchQuery, categories]);
+
   const filteredCategories = categories.filter(category => searchInCategory(category, searchQuery));
+
+  const handleDeleteClick = (categoryId: string, categoryName: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCategoryToDelete({ id: categoryId, name: categoryName });
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (categoryToDelete) {
+      onDeleteCategory(categoryToDelete.id);
+      setDeleteDialogOpen(false);
+      setCategoryToDelete(null);
+    }
+  };
+
   if (filteredCategories.length === 0) {
     return null;
   }
-  return <div className="space-y-4">
+
+  return (
+    <div className="space-y-4">
       <div className="flex items-center justify-end mb-4">
         <ToggleGroup type="single" value={sortType} onValueChange={value => value && setSortType(value as "default" | "popularity")}>
-          
-          
+          <ToggleGroupItem value="default" className="mr-2">
+            Default
+          </ToggleGroupItem>
+          <ToggleGroupItem value="popularity">
+            Popularity
+          </ToggleGroupItem>
         </ToggleGroup>
       </div>
-      
+
       <div className="space-y-2">
-        {filteredCategories.map(category => <div key={category.id} className="rounded-lg border bg-card text-card-foreground dark:border-gray-700">
+        {filteredCategories.map(category => (
+          <div key={category.id} className="rounded-lg border bg-card text-card-foreground dark:border-gray-700">
             <Collapsible open={openCategories.has(category.id)} onOpenChange={() => toggleCategory(category.id)}>
               <div className="flex items-center p-2 hover:bg-accent rounded-lg transition-colors">
                 <CollapsibleTrigger className="flex items-center flex-1 gap-2">
-                  {category.children.length > 0 ? openCategories.has(category.id) ? <ChevronDown className="h-4 w-4" style={{
-                color: 'oklch(47.22% 0.1834 290.74)'
-              }} /> : <ChevronRight className="h-4 w-4" style={{
-                color: 'oklch(47.22% 0.1834 290.74)'
-              }} /> : <Folder className="h-4 w-4" style={{
-                color: 'oklch(47.22% 0.1834 290.74)'
-              }} />}
+                  {category.children.length > 0 ? (
+                    openCategories.has(category.id) ? (
+                      <ChevronDown className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                    ) : (
+                      <ChevronRight className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                    )
+                  ) : (
+                    <Folder className="h-4 w-4" style={{ color: 'oklch(47.22% 0.1834 290.74)' }} />
+                  )}
                   <span className="font-medium">{category.name}</span>
                 </CollapsibleTrigger>
-                
+
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" style={{
-                color: 'oklch(47.22% 0.1834 290.74)'
-              }} onClick={e => {
-                e.stopPropagation();
-                onAddSubCategory(category.id);
-              }}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    style={{ color: 'oklch(47.22% 0.1834 290.74)' }}
+                    onClick={e => {
+                      e.stopPropagation();
+                      onAddSubCategory(category.id);
+                    }}
+                  >
                     <FolderPlus className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" style={{
-                color: 'oklch(47.22% 0.1834 290.74)'
-              }} onClick={e => {
-                e.stopPropagation();
-                onDeleteCategory(category.id);
-              }}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    style={{ color: 'oklch(47.22% 0.1834 290.74)' }}
+                    onClick={(e) => handleDeleteClick(category.id, category.name, e)}
+                  >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
-              
-              {category.children.length > 0 && <CollapsibleContent>
+
+              {category.children.length > 0 && (
+                <CollapsibleContent>
                   <div className="pl-6 mt-2">
-                    <CategoryTree categories={category.children} onAddSubCategory={onAddSubCategory} onDeleteCategory={onDeleteCategory} searchQuery={searchQuery} level={level + 1} />
+                    <CategoryTree
+                      categories={category.children}
+                      onAddSubCategory={onAddSubCategory}
+                      onDeleteCategory={onDeleteCategory}
+                      searchQuery={searchQuery}
+                      level={level + 1}
+                    />
                   </div>
-                </CollapsibleContent>}
+                </CollapsibleContent>
+              )}
             </Collapsible>
-          </div>)}
+          </div>
+        ))}
       </div>
-    </div>;
+
+      {categoryToDelete && (
+        <DeleteCategoryDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirmDelete={handleConfirmDelete}
+          categoryName={categoryToDelete.name}
+        />
+      )}
+    </div>
+  );
 }
